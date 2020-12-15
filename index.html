@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" name="viewport" content="width=device-width, initial-scale=1.0"/>
+		<link rel="stylesheet" href="styles.css">
+		<style>
+			html, body {
+				font-family: sans-serif;
+				background-color: transparent;
+			}
+			.quizBody {
+				background-color: white;
+				border-radius: 10px;
+			}			
+			html { overflow: hidden }
+
+			.quiz_js {
+				display: flex;
+				flex-basis: 20%;
+				align-items: center;
+				justify-content: center;
+			}
+			
+			.quiz_js .quizJsDiv {
+				margin: auto;
+			}
+			.quiz_js p {
+				color: white;
+				font-size: 1.15em;
+				text-align: center;
+				text-shadow:
+					1px 1px 0 red,
+					1px -1px 0 red,
+					-1px 1px 0 red,
+					-1px -1px 0 red;
+			}
+			@media (max-width: 800px) {
+				html, body {
+					height: 100%;
+					overflow: initial;
+				}
+				.quiz_js p {
+					color: white;
+					font-size: 1em;
+					text-align: center;
+					text-shadow:
+						1px 1px 0 red,
+						1px -1px 0 red,
+						-1px 1px 0 red,
+						-1px -1px 0 red;
+				}
+			}
+			
+			.quiz {
+				display: flex;
+				margin: 10px;
+				align-items: center;
+				justify-content: center;
+				background-color: white;
+				border-radius: 10px;
+				height: 440px;
+			}
+			
+			.quiz_img img {
+				padding-top: 10px;
+				width: 100%;
+				height: 100%
+			}
+			@media (max-width: 700px) {
+				.quiz {
+					text-align: center;
+					display: flex;
+					flex-direction: column;
+					justify-content: start;
+					align-items: initial;
+					height: 480px;
+				}
+				
+				.quiz_img img {
+					width: 60%;
+					height: 90%;
+				}
+			}
+			
+			.quiz_body h2 {
+				font-size: 1.6em;
+				text-align: left;
+			}
+
+			.quiz_buttons {
+				padding-left: 0%;
+				margin-bottom: 10px;
+				position: relative;
+				justify-content: center;
+			
+			}
+
+			.quiz_buttons button {
+				border: 5px solid;
+				font-size: 1.4em;
+				background-image: linear-gradient(rgb(240, 0, 0, 1), rgb(134, 0, 0, 1));
+				font-family: sans-serif;
+				text-align: left;
+				width: 100%;
+				color: white;
+				padding: 10px;
+				border-radius: 20px;
+				display: block;
+
+			}
+			@media (max-width: 800px) {
+				.quiz_buttons{
+					padding-left: 0%;
+					font-size: 0.8em;
+					margin-bottom: 10px;
+					position: relative;
+					justify-content: center;
+				}
+				.quiz_body h2 {
+					font-size: 1em;
+					text-align: center;
+				}
+			}
+			hr {
+				opacity: 1
+				margin-right: auto;
+				margin-left: auto;
+				width: 100%;
+				height: 20px;
+				background-color: blue;
+				border-bottom-left-radius: 10px;
+				border-bottom-right-radius: 10px;
+}
+
+			
+		</style>
+		<script type="text/javascript">
+		function nextQuest (num) {
+			let but = []
+			let divClass = document.getElementById('quizButtons')
+			let titleName = document.getElementById('quizTitle')
+			for (i = 0; i < 3; i++) {
+				but[i] = document.getElementById('quizBut' + String(i))
+			}
+			switch (num) {
+				case 2:
+					qNum.innerHTML = '2/3'
+					for (i = 0; i < 3; i++)
+						but[i].removeAttribute('onclick')
+					document.querySelector('.quiz_img').remove()
+					//document.querySelector('.quiz_buttons').style.paddingLeft = 0
+					titleName.innerHTML = 'Who won the 2020 US Election'
+					const butNames = [
+						'Donald Trump',
+						'Joe Biden,
+						'Bernie Sanders'
+					]
+					for (i = 0; i < 3; i++) {
+						but[i].innerHTML = butNames[i]
+					}
+					but[0].onclick = function () { wrongQuest(2) }
+					but[2].onclick = function () { wrongQuest(2) }
+					but[1].onclick = function () { wrongTotal['Q2'][0]++; wrongTotal['total']++; nextQuest(3) }
+					break
+				case 3:
+					qNum.innerHTML = '3/3'
+					for (i = 0; i < 3; i++)
+					  but[i].removeAttribute('onclick')
+					titleName.innerHTML = 'There is one imposter among us'
+					const imgSrc = [
+						'img/null.png',
+						'img/null.png',
+						'img/null.png',
+					]
+					for (i = 0; i < 3; i++)
+						but[i].remove()
+					divClass.style.display = 'flex'
+					divClass.style['flex-direction'] = (window.innerWidth > 700) ? 'row' : 'column'
+					divClass.style['align-items'] = 'center'
+					divClass.style['text-align'] = 'flex'
+					for (i = 0; i < 3; i++) {
+						but[i] = document.createElement('IMG')
+						but[i].src = imgSrc[i]
+						but[i].style = (window.innerWidth < 700) ? 'width: 35%;height: 35%;' : 'width: 18%;height: 18%;'
+						but[i].id = 'quizBut' + String(i)
+						divClass.appendChild(but[i])
+					}
+					but[1].onclick = function () { wrongTotal['Q3'][0]++; wrongTotal['total']++; nextQuest(4) }
+					but[0].onclick = function () { wrongQuest(3) }
+					but[2].onclick = function () { wrongQuest(3) }
+					break
+				case 4:
+					qNum.innerHTML = 'QUIZ END'
+					titleName.innerHTML = 'Quiz Has Ended.'
+					divClass.style.display = ''
+					divClass.style['flex-direction'] = ''
+					divClass.style['text-align'] = 'center'
+					divClass.style['font-size'] = (window.innerWidth > 700) ? '2em' : '1em'
+					clearInterval(x)
+					for (i = 0; i < 3; i++)
+					  but[i].removeAttribute('onclick')
+					for (i = 0; i < 3; i++)
+						but[i].remove()
+					if (document.getElementById('quizImg'))
+						document.getElementById('quizImg').remove()
+					let endHead = document.createElement('H3')
+					endHead.style['line-height'] = '150%'
+					var corAns = calcAns()
+					let totalRight = []
+					if (wrongTotal[Object.keys(wrongTotal)[0]][0] < 2)
+						endHead.innerHTML = 'Pay more attention'
+					else if (wrongTotal[Object.keys(wrongTotal)[0]][0] < 3)
+						endHead.innerHTML = 'Piss poor'
+					else
+						endHead.innerHTML = 'Nice'
+					endHead.style.color = 'red'
+					divClass.style.lineHeight = 0.5
+					divClass.appendChild(endHead)
+						
+					for (i = 0; i < 4; i++)
+						totalRight[i] = document.createElement('P')
+					totalRight[0].innerHTML = 'Total: ' + corAns
+					for (i = 1; i < 4; i++)
+						totalRight[i].innerHTML = Object.keys(wrongTotal)[i] + ': ' + wrongTotal[Object.keys(wrongTotal)[i]][0] + '/' + wrongTotal[Object.keys(wrongTotal)[i]][1]
+					for (i = 0; i < 4; i++)
+						divClass.appendChild(totalRight[i])
+					break
+			}
+		}  
+	</script>
+  <script type="text/javascript">
+    var wrongTotal = {
+	  total: [0, 3],
+      Q1: [0, 1],
+      Q2: [0, 1],
+      Q3: [0, 1]
+    }
+    function wrongQuest (num) {
+		alert('WRONG!')
+		nextQuest(num + 1)
+    }
+	function calcAns () {
+		let x = 0
+		let y = 0
+		for (i = 1; i < 4; i++) {
+			x = x + wrongTotal[Object.keys(wrongTotal)[i]][0]
+			y = y + wrongTotal[Object.keys(wrongTotal)[i]][1]
+		}
+		x = x + '/' + y
+		return x
+	}
+  </script>
+	</head>
+	<body>
+		<div class="quiz_js">
+			<div class="quizJsDiv">
+				<p>Q:</p>
+				<p id="qNum">1/3</p>
+			</div>
+			<div class="quizJsDiv">
+				<p>TIME:</p>
+				<p id="qTime">0:00</p>
+			</div>
+		</div>
+		<div class="quizBody">
+		<div class="quiz" id="quiz">
+			<div class="quiz_img">
+				<img id="quizImg"src="img/null.png">
+			</div>
+			<div class="quiz_body">
+				<div class="quiz_title">
+					<h2 id="quizTitle">Q1</h2>
+				</div>
+				<div class="quiz_buttons" id="quizButtons">
+					<button onclick="wrongTotal['Q1'][0]++; wrongTotal['total']++; nextQuest(2)" id="quizBut0">Ans 1</button>
+					<button id="quizBut1" onclick="wrongQuest(1)">Ans 2</button>
+					<button id="quizBut2" onclick="wrongQuest(1)">Ans 3</button>
+				</div>
+			</div>
+		</div>
+		<hr>
+		</div>
+	</body>
+	<script type="text/javascript">
+			/*
+			 * Timer Code
+			 */
+			var qNum = document.getElementById('qNum')
+			var qTime = document.getElementById('qTime')
+			var minTime = 3
+			var endTime = new Date(new Date().getTime() + minTime*60*1000)
+			
+			
+			var x = setInterval(function () {
+			
+				var curTime = new Date().getTime()
+				
+				var disTime = endTime - curTime
+				
+				var minutes = Math.floor((disTime % (1000 * 60 * 60) / (1000 * 60)))
+				var seconds = Math.floor((disTime % (1000 * 60) / 1000))
+				if (seconds < 10)
+					seconds = '0' + seconds
+				
+				qTime.innerHTML = minutes + ':' + seconds
+				
+				if (disTime < 0) {
+					clearInterval(x)
+					qTime.innerHTML = 'SELESAI'
+					nextQuest(4)
+				}
+			}, 1000)
+	</script>
+	
+		
+</html>
